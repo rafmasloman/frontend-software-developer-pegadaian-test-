@@ -5,12 +5,20 @@ export default {
       type: String,
       required: true,
     },
+    variant: {
+      type: String,
+      required: false,
+    },
   },
 };
 </script>
 
 <template>
-  <button class="bg-indigo-700 text-white p-2.5 rounded-lg">
+  <button
+    :class="`w-fit ${
+      variant === 'secondary' ? 'bg-white' : 'bg-green-600'
+    } text-white p-2.5 rounded-lg`"
+  >
     {{ label }}
   </button>
 </template>

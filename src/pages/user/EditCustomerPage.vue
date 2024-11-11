@@ -1,8 +1,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import userApiService from '../../api/user/UserService';
 import Swal from 'sweetalert2';
 import TextInput from '../../components/Input/TextInput.vue';
+import customerApiService from '../../api/user/CustomerService';
 
 export default defineComponent({
   components: {
@@ -10,7 +10,7 @@ export default defineComponent({
   },
   data() {
     return {
-      userDetail: {
+      customerDetail: {
         Name: '',
         Phone: '',
         Address: '',
@@ -19,29 +19,29 @@ export default defineComponent({
     };
   },
   async mounted() {
-    const user = await userApiService.getUserDetail(
+    const customer = await customerApiService.getCustomerDetail(
       this.$route.params.id as string,
     );
 
-    this.userDetail = { ...user.data };
+    this.customerDetail = { ...customer.data };
   },
   methods: {
     async handleSubmitForm(e: Event) {
       e.preventDefault();
-      const user = await userApiService.updateUser(
+      const customer = await customerApiService.updateCustomer(
         this.$route.params.id as string,
         {
-          Name: this.userDetail.Name,
-          Address: this.userDetail.Address,
-          BirthDate: this.userDetail.BirthDate.toString(),
-          Phone: this.userDetail.Phone,
+          Name: this.customerDetail.Name,
+          Address: this.customerDetail.Address,
+          BirthDate: this.customerDetail.BirthDate.toString(),
+          Phone: this.customerDetail.Phone,
         },
       );
 
-      if (user.statusCode === 201) {
+      if (customer.statusCode === 201) {
         await Swal.fire({
-          title: 'User Updated!',
-          text: 'The user has been Updated.',
+          title: 'Customer Updated!',
+          text: 'The customer has been Updated.',
           icon: 'success',
           confirmButtonText: 'OK',
         });
@@ -50,7 +50,7 @@ export default defineComponent({
       } else {
         await Swal.fire({
           title: 'Failed Update!',
-          text: 'The user failed to Update.',
+          text: 'The customer failed to Update.',
           icon: 'error',
           confirmButtonText: 'OK',
         });
@@ -67,9 +67,13 @@ export default defineComponent({
     @submit="handleSubmitForm"
   >
     <section class="grid grid-cols-1 md:grid-cols-2 gap-x-7">
-      <TextInput label="Nama" name="Name" v-model="userDetail.Name" />
-      <TextInput label="Alamat" name="Address" v-model="userDetail.Address" />
-      <TextInput label="No.Telp" name="Phone" v-model="userDetail.Phone" />
+      <TextInput label="Nama" name="Name" v-model="customerDetail.Name" />
+      <TextInput
+        label="Alamat"
+        name="Address"
+        v-model="customerDetail.Address"
+      />
+      <TextInput label="No.Telp" name="Phone" v-model="customerDetail.Phone" />
 
       <div class="mb-5">
         <label
@@ -80,7 +84,7 @@ export default defineComponent({
         <input
           id="birthDate"
           type="date"
-          v-model="userDetail.BirthDate"
+          v-model="customerDetail.BirthDate"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
       </div>

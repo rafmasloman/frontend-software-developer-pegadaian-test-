@@ -9,8 +9,11 @@ export default {
       type: String,
       required: true,
     },
+    placeholder: {
+      type: String,
+      required: false,
+    },
     modelValue: {
-      // Properti untuk v-model
       type: String,
       required: true,
     },
@@ -30,6 +33,7 @@ export default {
       {{ label }}
     </label>
     <input
+      :placeholder="placeholder"
       :id="name"
       type="date"
       :value="modelValue"

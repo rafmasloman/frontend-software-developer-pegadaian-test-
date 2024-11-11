@@ -1,14 +1,14 @@
-export interface IUserApiResponseData {
+export interface ICustomerApiResponseData {
   ID: number;
   Name: string;
-  BirthDate: string;
+  BirthDate: any;
   Address: string;
   Phone: string;
 }
 
-export interface IUserApiRequestData {
+export interface ICustomerApiRequestData {
   Name: string;
-  BirthDate: string;
+  BirthDate: any;
   Address: string;
   Phone: string;
 }

@@ -13,6 +13,10 @@ export default {
       type: String,
       required: true,
     },
+    placeholder: {
+      type: String,
+      required: false,
+    },
   },
   mounted() {
     console.log('name : ', this.name);
@@ -32,10 +36,11 @@ export default {
       label
     }}</label>
     <input
+      :placeholder="placeholder"
       :id="name"
       :value="modelValue"
       @input="updateValue"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl py-3 s focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder:text-gray-400"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl py-3 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder:text-gray-400"
     />
   </div>
 </template>

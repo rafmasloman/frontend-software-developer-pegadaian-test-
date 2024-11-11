@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import Homepage from '../pages/Homepage.vue';
-import EditUserPage from '../pages/user/EditUserPage.vue';
-import AddUserPage from '../pages/user/AddUserPage.vue';
+import EditCustomerPage from '../pages/user/EditCustomerPage.vue';
+import AddCustomerPage from '../pages/user/AddCustomerPage.vue';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -10,14 +10,14 @@ const routes: RouteRecordRaw[] = [
     name: 'Homepage',
   },
   {
-    path: '/user/add-user',
-    component: AddUserPage,
-    name: 'AddUserPage',
+    path: '/customer/add-customer',
+    component: AddCustomerPage,
+    name: 'AddCustomerPage',
   },
   {
-    path: '/user/:id/edit-user',
-    component: EditUserPage,
-    name: 'EditUserPage',
+    path: '/customer/:id/edit-customer',
+    component: EditCustomerPage,
+    name: 'EditCustomerPage',
   },
 ];
 

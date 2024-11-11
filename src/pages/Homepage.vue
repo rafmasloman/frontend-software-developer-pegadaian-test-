@@ -1,9 +1,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { IUserApiResponseData } from '../api/user/UserInterface';
-import userApiService from '../api/user/UserService';
 import Button from '../components/Button/index.vue';
 import Swal from 'sweetalert2';
+import { ICustomerApiResponseData } from '../api/user/CustomerInterface';
+import customerApiService from '../api/user/CustomerService';
 
 export default defineComponent({
   components: {
@@ -11,36 +11,36 @@ export default defineComponent({
   },
   data() {
     return {
-      userData: [] as IUserApiResponseData[],
+      customersData: [] as ICustomerApiResponseData[],
     };
   },
   async mounted() {
-    const users = await userApiService.getAllUsers();
+    const customers = await customerApiService.getAllCustomers();
 
-    this.userData = users.data;
+    this.customersData = customers.data;
   },
   methods: {
     handleNavigatePage(url: string) {
-      this.$router.push(`/user${url}`);
+      this.$router.push(`/customer${url}`);
     },
     async handleDeleteUser(id: string) {
-      const user = await userApiService.deleteUser(id);
+      const customer = await customerApiService.deleteCustomer(id);
 
-      if (user.statusCode === 200) {
+      if (customer.statusCode === 200) {
         await Swal.fire({
-          title: 'User Deleted!',
-          text: 'Selected user has been deleted.',
+          title: 'Customer Deleted!',
+          text: 'Selected Customer has been deleted.',
           icon: 'success',
           confirmButtonText: 'OK',
         });
 
-        const users = await userApiService.getAllUsers();
+        const customers = await customerApiService.getAllCustomers();
 
-        this.userData = users.data;
+        this.customersData = customers.data;
       } else {
         await Swal.fire({
           title: 'Delete Failed!',
-          text: 'Selected user failed to be deleted.',
+          text: 'Selected Customer failed to be deleted.',
           icon: 'error',
           confirmButtonText: 'OK',
         });
@@ -51,9 +51,20 @@ export default defineComponent({
 </script>
 
 <template>
-  <main class="container mx-auto">
-    <section class="px-20">
-      <Button label="Add User" @click="() => handleNavigatePage('/add-user')" />
+  <main class="container mx-auto py-10 font-poppins">
+    <section class="px-7 md:px-10 lg:px-20">
+      <h1>Homepage</h1>
+    </section>
+
+    <div class="my-10"></div>
+
+    <section class="px-7 md:px-10 lg:px-20">
+      <div class="flex flex-col" jus>
+        <Button
+          label="Add User"
+          @click="() => handleNavigatePage('/add-customer')"
+        />
+      </div>
       <div class="flex flex-col">
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -72,33 +83,39 @@ export default defineComponent({
                 </thead>
                 <tbody>
                   <tr
-                    v-for="user in userData"
+                    v-for="customer in customersData"
                     class="border-b border-neutral-200"
                   >
-                    <td class="whitespace-nowrap px-6 py-4">{{ user.Name }}</td>
                     <td class="whitespace-nowrap px-6 py-4">
-                      {{ user.BirthDate }}
+                      {{ customer.Name }}
                     </td>
                     <td class="whitespace-nowrap px-6 py-4">
-                      {{ user.Phone }}
+                      {{ customer.BirthDate }}
                     </td>
                     <td class="whitespace-nowrap px-6 py-4">
-                      {{ user.Address }}
+                      {{ customer.Phone }}
+                    </td>
+                    <td class="whitespace-nowrap px-6 py-4">
+                      {{ customer.Address }}
                     </td>
                     <td class="whitespace-nowrap px-6 py-4">
                       <div class="flex gap-3">
                         <button
+                          class="bg-blue-300 px-3 py-2 rounded-lg"
                           @click="
                             () =>
                               handleNavigatePage(
-                                `/${user.ID.toString()}/edit-user`,
+                                `/${customer.ID.toString()}/edit-customer`,
                               )
                           "
                         >
                           Edit
                         </button>
                         <button
-                          @click="() => handleDeleteUser(user.ID.toString())"
+                          class="bg-red-300 px-3 py-2 rounded-lg"
+                          @click="
+                            () => handleDeleteUser(customer.ID.toString())
+                          "
                         >
                           Hapus
                         </button>
